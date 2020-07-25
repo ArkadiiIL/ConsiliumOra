@@ -3,7 +3,7 @@ const webpack = require("webpack");
 
 module.exports = {
     entry: path.join(__dirname, 'src', 'main', 'resources','static','app', 'index.js'),
-    mode: "development",
+    mode: 'development',
     devServer: {
         contentBase: './dist',
         compress: true,
@@ -23,8 +23,20 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ["style-loader", "css-loader"]
+            },
+            {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'fonts/'
+                        }
+                    }
+                ]
             }
-        ]
+        ],
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin()],
@@ -34,4 +46,4 @@ module.exports = {
             path.join(__dirname, 'node_modules'),
         ]
     }
-    };
+};
