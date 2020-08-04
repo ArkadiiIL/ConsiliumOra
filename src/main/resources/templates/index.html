@@ -6,6 +6,9 @@
 <head style="margin: 0">
     <meta charset="UTF-8">
     <title>ConsiliumOra</title>
+    <script th:if="messages != null" th:inline="javascript">
+        let userData = [[${profile}]]
+    </script>
 </head>
 <body>
 <div id="root"></div>

@@ -1,5 +1,6 @@
 package consiliumora.security.user
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import consiliumora.domain.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -9,15 +10,19 @@ import org.springframework.security.oauth2.core.user.OAuth2User
 class UserPrincipal: OAuth2User, UserDetails {
     private val name: String
     private val username: String
-    private val password: String
-    private val attributes: MutableMap<String, Any>
     private val role: GrantedAuthority
+    private val img: String?
+    @JsonIgnore
+    private val password: String
+    @JsonIgnore
+    private val attributes: MutableMap<String, Any>
     constructor(user: User)
     {
         name = user.providerId
         username = user.username
         password = user.password
         attributes = HashMap()
+        img = user.img
         role = SimpleGrantedAuthority(user.role.name)
     }
     constructor(user: User, attributes: MutableMap<String, Any>)
@@ -25,6 +30,7 @@ class UserPrincipal: OAuth2User, UserDetails {
         name = user.providerId
         username = user.username
         password = user.password
+        img = user.img
         this.attributes = attributes
         role = SimpleGrantedAuthority(user.role.name)
     }
@@ -48,4 +54,6 @@ class UserPrincipal: OAuth2User, UserDetails {
     override fun isAccountNonExpired(): Boolean = true
 
     override fun isAccountNonLocked(): Boolean = true
+
+    fun getImg(): String? = img
 }

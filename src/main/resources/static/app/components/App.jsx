@@ -1,29 +1,31 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 import Grid from "@material-ui/core/Grid"
-import Header from "./Header.jsx"
-import Content from "./Content.jsx"
+import Header from "./header/Header.jsx"
+import Content from "./content/Content.jsx"
 import Footer from "./Footer.jsx"
 import MenuDrawer from "./MenuDrawer.jsx"
-import  { useState } from 'react'
+import getUser from "../api/getUser.js"
+import {BrowserRouter} from "react-router-dom"
+import {Container} from "@material-ui/core"
 
 
 const App = () => {
-    const[open, setOpen] = useState(false)
-        return(
-            <Grid container direction={'column'}>
-                <Grid item>
-                    <Header open={open} setOpen={setOpen} />
-                </Grid>
-                <Grid item>
-                    <MenuDrawer open={open} setOpen={setOpen}/>
-                </Grid>
-                <Grid item>
-                    <Content open={open}/>
-                </Grid>
-                <Grid item>
-                    <Footer open={open}r/>
-                </Grid>
-            </Grid>
+    useEffect(() => {
+        getUser.then(user => setUser(user))
+    },[user])
+    const[openMenuDrawer, setOpenMenuDrawer] = useState(false)
+    const[user, setUser] = useState(userData)
+    return(
+        <React.Fragment>
+            <BrowserRouter>
+                <Container maxWidth="lg">
+                    <Header open={openMenuDrawer} setOpen={setOpenMenuDrawer} user={user} />
+                    <MenuDrawer open={openMenuDrawer} setOpen={setOpenMenuDrawer}/>
+                    <Content open={openMenuDrawer}/>
+                    <Footer open={openMenuDrawer}/>
+                </Container>
+            </BrowserRouter>
+        </React.Fragment>
     )
 }
 export default App

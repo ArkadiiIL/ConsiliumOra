@@ -1,12 +1,12 @@
 import React from "react"
 import IconButton from "@material-ui/core/IconButton"
 import MenuIcon from '@material-ui/icons/Menu'
-import appStyles from "../style/styles.js"
+import appStyles from "../../style/styles.js"
 import clsx from 'clsx'
-const DrawerButton = (props) => {
+const DrawerButton = ({open, setOpen}) => {
     const drawerButtonStyles = appStyles()
     const handleDrawerOpen = () => {
-        props.setOpen(true)
+        setOpen(true)
     }
 
     return (
@@ -15,7 +15,7 @@ const DrawerButton = (props) => {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(drawerButtonStyles.menuButton, props.open && drawerButtonStyles.hide)}
+            className={clsx(drawerButtonStyles.menuButton, open && drawerButtonStyles.hide)}
             >
             <MenuIcon/>
         </IconButton>

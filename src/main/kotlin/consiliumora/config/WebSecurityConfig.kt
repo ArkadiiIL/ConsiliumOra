@@ -21,7 +21,7 @@ import org.springframework.web.client.RestTemplate
 class WebSecurityConfig(@Autowired val customOAuth2UserService: CustomOAuth2UserService) : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity?) {
         http?.authorizeRequests()
-            ?.antMatchers("/error**", "/js/**", "login/*", "/")?.permitAll()
+            ?.antMatchers("/error**", "/js/**", "login/*", "/", "/user")?.permitAll()
             ?.anyRequest()?.authenticated()
             ?.and()
             ?.oauth2Login()
@@ -47,6 +47,4 @@ class WebSecurityConfig(@Autowired val customOAuth2UserService: CustomOAuth2User
         accessTokenResponseClient.setRestOperations(restTemplate)
         return accessTokenResponseClient
     }
-
-
 }

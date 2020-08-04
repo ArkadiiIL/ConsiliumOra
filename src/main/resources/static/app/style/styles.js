@@ -48,6 +48,7 @@ const appStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         marginLeft: -drawerWidth,
+        marginTop: theme.spacing(4)
     },
     contentShift: {
         transition: theme.transitions.create('margin', {
@@ -55,6 +56,12 @@ const appStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.enteringScreen,
         }),
         marginLeft: 0,
+        marginTop: theme.spacing(4)
+    },
+    menuItemButtonLabel: {
+        textTransform: 'none',
+        fontWeight: 500,
+        fontSize: '1rem'
     }
 
 }))
