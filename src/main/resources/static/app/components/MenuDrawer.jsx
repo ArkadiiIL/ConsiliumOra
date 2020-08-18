@@ -8,8 +8,8 @@ import {useTheme} from "@material-ui/core/styles"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import appStyles from "../style/styles.js"
-import {Button} from "@material-ui/core"
-import {Link} from "react-router-dom"
+import {NavLink} from "react-router-dom"
+import ListItemText from "@material-ui/core/ListItemText"
 
 const MenuDrawer = ({open, setOpen}) => {
     const menuDrawerStyles = appStyles()
@@ -33,25 +33,17 @@ const MenuDrawer = ({open, setOpen}) => {
             </div>
             <Divider />
             <List>
-                <ListItem button key={"Main Page"}>
-                    <Button classes={{label: menuDrawerStyles.menuItemButtonLabel}} color="primary" component={Link} to="/">
-                        Main Page
-                    </Button>
+                <ListItem button key={"Main Page"} component={NavLink} to="/">
+                    <ListItemText primary={"Main Page"} classes={{primary: menuDrawerStyles.menuDrawerListItemText}}/>
                 </ListItem>
-                <ListItem button key={"My Dictionary"}>
-                    <Button classes={{label: menuDrawerStyles.menuItemButtonLabel}} color="primary" component={Link} to="/dictionary">
-                        My Dictionary
-                    </Button>
+                <ListItem button key={"My Dictionary"} component={NavLink} to="/dictionary">
+                    <ListItemText primary={"My Dictionary"} classes={{primary: menuDrawerStyles.menuDrawerListItemText}}/>
                 </ListItem>
-                <ListItem button key={"WorkOut"}>
-                    <Button classes={{label: menuDrawerStyles.menuItemButtonLabel}} color="primary" component={Link} to="/workout">
-                        WorkOut
-                    </Button>
+                <ListItem button key={"WorkOut"} component={NavLink} to="/workout">
+                    <ListItemText primary={"WorkOut"} classes={{primary: menuDrawerStyles.menuDrawerListItemText}}/>
                 </ListItem>
-                <ListItem button key={"Forum"}>
-                    <Button classes={{label: menuDrawerStyles.menuItemButtonLabel}} color="primary" component={Link} to="/forum">
-                        Forum
-                    </Button>
+                <ListItem button key={"Forum"} component={NavLink} to="/forum">
+                    <ListItemText primary={"Forum"} classes={{primary: menuDrawerStyles.menuDrawerListItemText}}/>
                 </ListItem>
             </List>
         </Drawer>

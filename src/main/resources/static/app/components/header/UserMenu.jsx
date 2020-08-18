@@ -2,6 +2,9 @@ import React from "react"
 import {Avatar, Button, Menu, MenuItem} from "@material-ui/core"
 import appStyles from "../../style/styles.js"
 import { Link } from "react-router-dom"
+import ListItemText from "@material-ui/core/ListItemText"
+import {Link as MaterialLink} from "@material-ui/core"
+import {Typography} from "@material-ui/core"
 
 
 const UserMenu = ({user}) => {
@@ -20,7 +23,9 @@ const UserMenu = ({user}) => {
         <Avatar src={user.img}/>
         <div>
             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                {user.username}
+                <Typography className={styles.userMenuButton}>
+                    {user.username}
+                </Typography>
             </Button>
             <Menu
                 id="simple-menu"
@@ -29,15 +34,11 @@ const UserMenu = ({user}) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>
-                    <Button classes={{label: styles.menuItemButtonLabel}} color="primary" component={Link} to='/profile'>
-                        Profile
-                    </Button>
+                <MenuItem onClick={handleClose} component={Link} to="/profile">
+                    <ListItemText primary={"Profile"} classes={{primary: styles.userMenuListItemText}}/>
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
-                    <Button classes={{label: styles.menuItemButtonLabel}} color="primary" href="/logout">
-                            Logout
-                    </Button>
+                <MenuItem onClick={handleClose} component={MaterialLink} href="/logout">
+                    <ListItemText primary={"Logout"} classes={{primary: styles.userMenuListItemText}}/>
                 </MenuItem>
             </Menu>
         </div>

@@ -13,6 +13,7 @@ class OAuth2UserInfoFactory {
             Providers.GOOGLE -> GoogleUserInfo(oAuth2User.attributes, UserRole.ROLE_USER)
             Providers.FACEBOOK -> FacebookUserInfo(oAuth2User.attributes, UserRole.ROLE_USER)
             Providers.GITHUB -> GithubUserInfo(oAuth2User.attributes, UserRole.ROLE_USER)
+            Providers.VK -> VkUserInfo(oAuth2User.attributes, UserRole.ROLE_USER)
             else -> {
                 throw OAuth2ProviderException("Sorry provider is not found")
             }

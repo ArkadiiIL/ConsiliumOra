@@ -58,9 +58,18 @@ const appStyles = makeStyles((theme) => ({
         marginLeft: 0,
         marginTop: theme.spacing(4)
     },
-    menuItemButtonLabel: {
-        textTransform: 'none',
-        fontWeight: 500,
+    menuDrawerListItemText: {
+        fontWeight: 700,
+        fontSize: '1.5rem',
+        color: '#344955'
+    },
+    userMenuListItemText: {
+        fontWeight: 600,
+        fontSize: '1rem',
+        color: '#344955'
+    },
+    userMenuButton: {
+        fontWeight: 600,
         fontSize: '1rem'
     }
 
