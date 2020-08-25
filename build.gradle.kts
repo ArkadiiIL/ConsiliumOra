@@ -28,6 +28,7 @@ dependencies {
     implementation("org.springframework.security:spring-security-oauth2-client:5.3.3.RELEASE")
     implementation("org.springframework.security:spring-security-oauth2-jose:5.3.3.RELEASE")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf:2.3.0.RELEASE")
+    implementation("commons-codec:commons-codec:1.14")
 
     implementation("org.postgresql:postgresql")
 

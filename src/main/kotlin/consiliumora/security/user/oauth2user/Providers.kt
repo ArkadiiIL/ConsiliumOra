@@ -5,5 +5,6 @@ enum class Providers {
     FACEBOOK,
     GITHUB,
     LOCALE,
-    VK
+    VK,
+    OK
 }

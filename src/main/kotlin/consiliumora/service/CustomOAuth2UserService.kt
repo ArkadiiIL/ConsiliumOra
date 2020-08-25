@@ -6,7 +6,9 @@ import consiliumora.security.user.UserPrincipal
 import consiliumora.security.user.oauth2user.OAuth2UserInfo
 import consiliumora.security.user.oauth2user.OAuth2UserInfoFactory
 import consiliumora.security.user.oauth2user.Providers
+import org.apache.commons.codec.digest.DigestUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.security.core.GrantedAuthority
@@ -22,20 +24,23 @@ import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestTemplate
 import java.util.*
 import javax.naming.AuthenticationException
-import kotlin.collections.ArrayList
 
 
 @Service
 class CustomOAuth2UserService(@Autowired val oAuth2UserInfoFactory: OAuth2UserInfoFactory, @Autowired val userRepo: UserRepo) :DefaultOAuth2UserService() {
+    @Value("\${okKey}")
+    private lateinit var okKey: String
+
     override fun loadUser(userRequest: OAuth2UserRequest?): OAuth2User {
         if(userRequest == null)
         {
             throw AuthenticationException()
         }
-        val oAuth2User = if(userRequest.clientRegistration.registrationId == "vk")
-            loadVkUser(userRequest)
-        else
-            super.loadUser(userRequest)
+        val oAuth2User = when (userRequest.clientRegistration.registrationId) {
+            "vk" -> loadVkUser(userRequest)
+            "ok" -> loadOkUser(userRequest)
+            else -> super.loadUser(userRequest)
+        }
 
         val provider = Providers.valueOf(userRequest.clientRegistration.registrationId.toUpperCase())
         val userInfo = oAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2User,provider)
@@ -72,16 +77,13 @@ class CustomOAuth2UserService(@Autowired val oAuth2UserInfoFactory: OAuth2UserIn
         ))
     }
 
-   private fun loadVkUser(userRequest: OAuth2UserRequest): OAuth2User
-    {
+   private fun loadVkUser(userRequest: OAuth2UserRequest): OAuth2User {
         val restTemplate = RestTemplate()
         val headers: MultiValueMap<String, String> = LinkedMultiValueMap()
         val accessToken = userRequest.accessToken.tokenValue
         headers.add("Content-Type", "application/json")
-//        headers.add("Authorization", accessToken )
         val httpRequest: HttpEntity<*> = HttpEntity<Any?>(headers)
         var uri = userRequest.clientRegistration.providerDetails.userInfoEndpoint.uri
-//        val userNameAttributeName = userRequest.additionalParameters["user_id"] as String
         val userNameAttributeName = "user_id"
         uri = uri.replace("{user_id}", userNameAttributeName + "=" + userRequest.additionalParameters[userNameAttributeName])
         uri = "$uri&access_token=$accessToken"
@@ -105,8 +107,41 @@ class CustomOAuth2UserService(@Autowired val oAuth2UserInfoFactory: OAuth2UserIn
 
 
 
+        } catch (exception:HttpClientErrorException) {
+            exception.printStackTrace()
+            throw AuthenticationException(exception.message)
         }
-        catch (exception:HttpClientErrorException) {
+    }
+
+    private fun loadOkUser(userRequest: OAuth2UserRequest): OAuth2User {
+        val restTemplate = RestTemplate()
+        val headers: MultiValueMap<String, String> = LinkedMultiValueMap()
+        val accessToken = userRequest.accessToken.tokenValue
+        headers.add("Content-Type", "application/json")
+        val httpRequest: HttpEntity<*> = HttpEntity<Any?>(headers)
+        var uri = userRequest.clientRegistration.providerDetails.userInfoEndpoint.uri
+        val clientSecret = userRequest.clientRegistration.clientSecret
+        val secretKey = DigestUtils.md5Hex(accessToken + clientSecret)
+        val sigExpression = "application_key=${okKey}format=jsonmethod=users.getCurrentUser${secretKey}"
+        val sig = DigestUtils.md5Hex(sigExpression)
+        uri = uri.replace("{okKey}", okKey)
+        uri = uri.replace("{sig}", sig)
+        uri += accessToken
+        try {
+            val entity = restTemplate.exchange(uri, HttpMethod.GET, httpRequest, Any::class.java)
+            val response = entity.body
+            if(response is Map<*, *>)
+            {
+                val authorities: Set<GrantedAuthority> =
+                    Collections.singleton(OAuth2UserAuthority(response as MutableMap<String, Any>?))
+                return DefaultOAuth2User(authorities, response, "uid")
+            }
+            else
+            {
+                throw ClassCastException("Can't cast response to map")
+            }
+
+        } catch (exception:HttpClientErrorException) {
             exception.printStackTrace()
             throw AuthenticationException(exception.message)
         }
