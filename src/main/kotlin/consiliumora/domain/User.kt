@@ -24,7 +24,7 @@ data class User(
     @Column(nullable = false)
     val provider: Providers,
     @Column(nullable = false)
-    val providerId: String,
+    var providerId: String,
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     val role: UserRole) :Serializable

@@ -8,6 +8,8 @@ import WorkOut from "./WorkOut.jsx"
 import Forum from "./Forum.jsx"
 import Profile from "./Profile.jsx"
 import {Switch, Route } from 'react-router-dom'
+import Login from "../login/Login.jsx"
+import Registration from "../login/Registration.jsx"
 
 const Content = ({open}) => {
     const contentStyles = appStyles()
@@ -22,6 +24,8 @@ const Content = ({open}) => {
                 <Route path='/workout' component={WorkOut}/>
                 <Route path='/forum' component={Forum}/>
                 <Route path='/profile' component={Profile}/>
+                <Route path='/login' component={Login}/>
+                <Route path='/registration' component={Registration}/>
             </Switch>
         </Grid>
     )

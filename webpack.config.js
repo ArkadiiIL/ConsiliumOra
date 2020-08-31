@@ -35,6 +35,17 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.(png|jpe?g|gif)$/i,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            name: 'images/[contenthash].[ext]',
+                        }
+                    },
+                ],
             }
         ],
     },

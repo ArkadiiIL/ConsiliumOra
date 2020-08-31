@@ -22,7 +22,7 @@ const UserMenu = ({user}) => {
         <React.Fragment>
         <Avatar src={user.img}/>
         <div>
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+            <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <Typography className={styles.userMenuButton}>
                     {user.username}
                 </Typography>

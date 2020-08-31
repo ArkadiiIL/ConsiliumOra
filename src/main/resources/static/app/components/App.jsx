@@ -5,8 +5,9 @@ import Content from "./content/Content.jsx"
 import Footer from "./Footer.jsx"
 import MenuDrawer from "./MenuDrawer.jsx"
 import getUser from "../api/getUser.js"
-import {BrowserRouter} from "react-router-dom"
+import {BrowserRouter, Switch, Route} from "react-router-dom"
 import {Container} from "@material-ui/core"
+import Login from "./login/Login.jsx"
 
 
 const App = () => {
@@ -16,16 +17,18 @@ const App = () => {
     const[openMenuDrawer, setOpenMenuDrawer] = useState(false)
     const[user, setUser] = useState(userData)
     return(
-        <React.Fragment>
             <BrowserRouter>
+                <Switch>
+                    <React.Fragment>
                 <Container maxWidth="lg">
                     <Header open={openMenuDrawer} setOpen={setOpenMenuDrawer} user={user} />
                     <MenuDrawer open={openMenuDrawer} setOpen={setOpenMenuDrawer}/>
                     <Content open={openMenuDrawer}/>
                     <Footer open={openMenuDrawer}/>
                 </Container>
+                    </React.Fragment>
+                </Switch>
             </BrowserRouter>
-        </React.Fragment>
     )
 }
 export default App
