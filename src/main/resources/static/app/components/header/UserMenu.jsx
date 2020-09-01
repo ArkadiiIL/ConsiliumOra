@@ -5,11 +5,18 @@ import { Link } from "react-router-dom"
 import ListItemText from "@material-ui/core/ListItemText"
 import {Link as MaterialLink} from "@material-ui/core"
 import {Typography} from "@material-ui/core"
+import {logout} from "../../api/logout";
 
 
 const UserMenu = ({user}) => {
     const [anchorEl, setAnchorEl] = React.useState(null)
     const styles = appStyles()
+    const handleLogout = () => {
+        handleClose()
+        logout().then( status => {
+            if(status === 200) window.location = "/login"
+        })
+    }
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget)
@@ -37,7 +44,7 @@ const UserMenu = ({user}) => {
                 <MenuItem onClick={handleClose} component={Link} to="/profile">
                     <ListItemText primary={"Profile"} classes={{primary: styles.userMenuListItemText}}/>
                 </MenuItem>
-                <MenuItem onClick={handleClose} component={MaterialLink} href="/logout">
+                <MenuItem onClick={handleLogout} component={MaterialLink} type="GET">
                     <ListItemText primary={"Logout"} classes={{primary: styles.userMenuListItemText}}/>
                 </MenuItem>
             </Menu>

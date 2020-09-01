@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResp
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest
 import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 import org.springframework.web.client.RestTemplate
 
 
@@ -27,7 +28,8 @@ class WebSecurityConfig(
 ) : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity?) {
         http
-            ?.csrf()?.disable()
+            ?.csrf()?.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            ?.and()
             ?.formLogin()?.disable()
             ?.logout()?.logoutSuccessUrl("/")
             ?.and()
@@ -37,6 +39,8 @@ class WebSecurityConfig(
             ?.anyRequest()?.authenticated()
             ?.and()
             ?.formLogin()?.loginPage("/login")?.permitAll()
+            ?.and()
+            ?.rememberMe()
             ?.and()
             ?.oauth2Login()?.loginPage("/login")?.permitAll()
             ?.userInfoEndpoint()

@@ -6,7 +6,7 @@ import clsx from "clsx"
 const Footer = (open) => {
     const footerStyles = appStyles()
     return (
-        <Grid container direction={'column'}
+        <Grid container direction={"column"}
               className={clsx(footerStyles.content, {
                   [footerStyles.contentShift]: open,
               })}>

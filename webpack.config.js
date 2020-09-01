@@ -2,14 +2,14 @@ const path = require("path");
 const webpack = require("webpack");
 
 module.exports = {
-    entry: path.join(__dirname, 'src', 'main', 'resources','static','app', 'index.js'),
-    mode: 'development',
+    entry: path.join(__dirname, "src", "main", "resources","static","app", "index.js"),
+    mode: "development",
     devServer: {
-        contentBase: './dist',
+        contentBase: "./dist",
         compress: true,
         port: 3000,
         allowedHosts: [
-            'localhost:8082'
+            "localhost:8082"
         ]
     },
     module: {
@@ -28,10 +28,10 @@ module.exports = {
                 test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
                 use: [
                     {
-                        loader: 'file-loader',
+                        loader: "file-loader",
                         options: {
-                            name: '[name].[ext]',
-                            outputPath: 'fonts/'
+                            name: "[name].[ext]",
+                            outputPath: "fonts/"
                         }
                     }
                 ]
@@ -40,9 +40,9 @@ module.exports = {
                 test: /\.(png|jpe?g|gif)$/i,
                 use: [
                     {
-                        loader: 'url-loader',
+                        loader: "url-loader",
                         options: {
-                            name: 'images/[contenthash].[ext]',
+                            name: "images/[contenthash].[ext]",
                         }
                     },
                 ],
@@ -53,8 +53,8 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin()],
     resolve: {
         modules: [
-            path.join(__dirname, 'src', 'main', 'resources','static', 'app'),
-            path.join(__dirname, 'node_modules'),
+            path.join(__dirname, "src", "main", "resources","static", "app"),
+            path.join(__dirname, "node_modules"),
         ]
     }
 };

@@ -1,12 +1,12 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from "@material-ui/core/styles"
 
 const drawerWidth = 240
 const appStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
+        display: "flex",
     },
     appBar: {
-        transition: theme.transitions.create(['margin', 'width'], {
+        transition: theme.transitions.create(["margin", "width"], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
@@ -14,7 +14,7 @@ const appStyles = makeStyles((theme) => ({
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
-        transition: theme.transitions.create(['margin', 'width'], {
+        transition: theme.transitions.create(["margin", "width"], {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
@@ -23,7 +23,7 @@ const appStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     hide: {
-        display: 'none',
+        display: "none",
     },
     menuDrawer: {
         width: drawerWidth,
@@ -33,17 +33,17 @@ const appStyles = makeStyles((theme) => ({
         width: drawerWidth,
     },
     drawerHeader: {
-        display: 'flex',
-        alignItems: 'center',
+        display: "flex",
+        alignItems: "center",
         padding: theme.spacing(0, 1),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
+        justifyContent: "flex-end",
     },
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
+        transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
@@ -51,7 +51,7 @@ const appStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(4)
     },
     contentShift: {
-        transition: theme.transitions.create('margin', {
+        transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
@@ -60,17 +60,22 @@ const appStyles = makeStyles((theme) => ({
     },
     menuDrawerListItemText: {
         fontWeight: 700,
-        fontSize: '1.5rem',
-        color: '#344955'
+        fontSize: "1.5rem",
+        color: "#344955"
     },
     userMenuListItemText: {
         fontWeight: 600,
-        fontSize: '1rem',
-        color: '#344955'
+        fontSize: "1rem",
+        color: "#344955"
     },
     userMenuButton: {
         fontWeight: 600,
-        fontSize: '1rem'
+        fontSize: "1rem"
+    },
+    logoutButton: {
+        fontWeight: 600,
+        fontSize: "1rem",
+        textTransform: "capitalize"
     }
 
 }))

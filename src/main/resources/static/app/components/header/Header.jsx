@@ -14,7 +14,7 @@ const Header = ({open, setOpen, user}) => {
     const appBarStyles = appStyles()
     const logo = logoStyle()
     return(
-        <AppBar position={'fixed'}
+        <AppBar position={"fixed"}
                 className={clsx(appBarStyles.appBar, {
                     [appBarStyles.appBarShift]: open,
                 })}>

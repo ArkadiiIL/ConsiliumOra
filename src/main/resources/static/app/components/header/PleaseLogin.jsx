@@ -8,8 +8,8 @@ const PleaseLogin = () => {
     const styles = appStyles()
     return (
         <Button color="inherit" component={NavLink} to="/login">
-            <Typography className={styles.userMenuButton}>
-                Login
+            <Typography className={styles.logoutButton}>
+                Sign in
             </Typography>
         </Button>
     )
