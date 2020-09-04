@@ -1,3 +1,4 @@
+import com.moowork.gradle.node.yarn.YarnTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.70"
@@ -6,7 +7,22 @@ plugins {
     id("io.spring.dependency-management") version "1.0.8.RELEASE"
     kotlin("plugin.jpa") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
+    id ("com.moowork.node") version "1.3.1"
 }
+
+tasks.register<YarnTask>("buildFront") {
+    args = listOf("build")
+    dependsOn("yarn_install")
+}
+
+tasks.named<YarnTask>("yarn_install") {
+    dependsOn("yarn_cache_clean")
+}
+
+tasks.withType<ProcessResources> {
+    dependsOn("buildFront")
+}
+
 
 repositories {
     jcenter()
@@ -35,7 +51,7 @@ dependencies {
 }
 
 application {
-    mainClassName = "WillMeet.AppKt"
+    mainClassName = "consiliumora.ConsiliumOraApplicationKt"
 }
 
 tasks.withType<KotlinCompile> {

@@ -3,15 +3,6 @@ const webpack = require("webpack");
 
 module.exports = {
     entry: path.join(__dirname, "src", "main", "resources","static","app", "index.js"),
-    mode: "development",
-    devServer: {
-        contentBase: "./dist",
-        compress: true,
-        port: 3000,
-        allowedHosts: [
-            "localhost:8082"
-        ]
-    },
     module: {
         rules: [
             {

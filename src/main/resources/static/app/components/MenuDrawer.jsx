@@ -11,7 +11,7 @@ import appStyles from "../style/styles.js"
 import {NavLink} from "react-router-dom"
 import ListItemText from "@material-ui/core/ListItemText"
 
-const MenuDrawer = ({open, setOpen}) => {
+const MenuDrawer = ({open, setOpen, user}) => {
     const menuDrawerStyles = appStyles()
     const handleDrawerClose = () => {
         setOpen(false)
@@ -36,13 +36,13 @@ const MenuDrawer = ({open, setOpen}) => {
                 <ListItem button key={"Main Page"} component={NavLink} to="/">
                     <ListItemText primary={"Main Page"} classes={{primary: menuDrawerStyles.menuDrawerListItemText}}/>
                 </ListItem>
-                <ListItem button key={"My Dictionary"} component={NavLink} to="/dictionary">
-                    <ListItemText primary={"My Dictionary"} classes={{primary: menuDrawerStyles.menuDrawerListItemText}}/>
+                <ListItem button key={"My Dictionary"} component={NavLink} to="/dictionary" disabled={user.name === "Unknown"}>
+                    <ListItemText primary={"My Dictionary"} classes={{primary: menuDrawerStyles.menuDrawerListItemText}} />
                 </ListItem>
-                <ListItem button key={"WorkOut"} component={NavLink} to="/workout">
+                <ListItem button key={"WorkOut"} component={NavLink} to="/workout" disabled={user.name === "Unknown"}>
                     <ListItemText primary={"WorkOut"} classes={{primary: menuDrawerStyles.menuDrawerListItemText}}/>
                 </ListItem>
-                <ListItem button key={"Forum"} component={NavLink} to="/forum">
+                <ListItem button key={"Forum"} component={NavLink} to="/forum" disabled={user.name === "Unknown"}>
                     <ListItemText primary={"Forum"} classes={{primary: menuDrawerStyles.menuDrawerListItemText}}/>
                 </ListItem>
             </List>

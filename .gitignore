@@ -30,3 +30,5 @@ out/
 node_modules
 /src/main/resources/static/app/fonts
 
+### Frontend build ###
+src/main/resources/static/js/

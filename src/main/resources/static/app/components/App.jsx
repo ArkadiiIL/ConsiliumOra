@@ -22,7 +22,7 @@ const App = () => {
                     <React.Fragment>
                 <Container maxWidth="lg">
                     <Header open={openMenuDrawer} setOpen={setOpenMenuDrawer} user={user} />
-                    <MenuDrawer open={openMenuDrawer} setOpen={setOpenMenuDrawer}/>
+                    <MenuDrawer open={openMenuDrawer} setOpen={setOpenMenuDrawer} user={user}/>
                     <Content open={openMenuDrawer}/>
                     <Footer open={openMenuDrawer}/>
                 </Container>

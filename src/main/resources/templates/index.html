@@ -11,6 +11,6 @@
 </head>
 <body>
 <div id="root"></div>
-<script th:src="'http://localhost:3000/main.js'"></script>
+<script th:src="${isDevMode} ? 'http://localhost:3000/main.js' : '/js/main.js'"></script>
 </body>
 </html>
