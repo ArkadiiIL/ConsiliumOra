@@ -30,6 +30,7 @@ class WebSecurityConfig(
         http
             ?.csrf()?.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
             ?.and()
+//            ?.csrf()?.disable()
             ?.formLogin()?.disable()
             ?.logout()?.logoutSuccessUrl("/")
             ?.and()

@@ -1,5 +1,5 @@
 import Cookies from "js-cookie"
-export const loginUser = async (formData) => {
+export const login_user = async (formData) => {
     const userInfo = {
         "username": formData.email,
         "password": formData.password,

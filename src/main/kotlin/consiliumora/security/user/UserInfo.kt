@@ -1,8 +1,7 @@
 package consiliumora.security.user
 
-data class UserInfo(
-    val firstName: String,
-    val lastName: String,
-    val email: String,
-    val password: String
+data class UserInfo (
+    val id: Long,
+    val username: String,
+    val img: String?
 )

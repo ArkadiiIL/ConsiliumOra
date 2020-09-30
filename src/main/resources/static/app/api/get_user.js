@@ -1,4 +1,4 @@
-export const getUser = async () => {
+export const get_user = async () => {
    const response = await fetch("/user")
         if(response.status === 200) {
             return await response.json()
@@ -6,4 +6,4 @@ export const getUser = async () => {
     else throw new Error(`Error ${response.status}`)
 }
 
-export default getUser()
+export default get_user()

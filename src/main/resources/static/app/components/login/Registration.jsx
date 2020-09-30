@@ -8,7 +8,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
 import Typography from "@material-ui/core/Typography"
 import {makeStyles} from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
-import {registrationUser} from "../../api/registrationUser"
+import {registration_user} from "../../api/registration_user"
 import  { Redirect } from "react-router-dom"
 
 
@@ -121,11 +121,11 @@ const Registration = () => {
             && formData.email !== ""
             && formData.password !== ""
         ) {
-            registrationUser(formData).then(response => {
+            registration_user(formData).then(response => {
                     if (response === 200) {
                         updateRedirectToLogin(true)
                     } else if (response === 400) {
-                        submitError(true)
+                        updateSubmitError(true)
                     } else if (response === 409) {
                         updateEmailAlreadyTaken(true)
                     }

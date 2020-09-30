@@ -1,6 +1,6 @@
 import Cookies from "js-cookie"
 
-export const registrationUser = async (formData) => {
+export const registration_user = async (formData) => {
      const response = await fetch("/user", {
          method: "POST",
          mode: "cors",

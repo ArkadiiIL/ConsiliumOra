@@ -32,3 +32,5 @@ node_modules
 
 ### Frontend build ###
 src/main/resources/static/js/
+
+gradle/wrapper/gradle-wrapper.jar

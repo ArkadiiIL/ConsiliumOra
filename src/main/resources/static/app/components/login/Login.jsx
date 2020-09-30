@@ -18,7 +18,7 @@ import vkImage from "./../../image/iconfinder_vk_834714.png"
 import githubImage from "./../../image/iconfinder_mark-github_298822.png"
 import okImage from "./../../image/iconfinder_ok_2308122.png"
 import {NavLink} from "react-router-dom"
-import {loginUser} from "../../api/loginUser";
+import {login_user} from "../../api/login_user";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -111,7 +111,7 @@ const Login = () => {
             && formData.email !== ""
             && formData.password !== ""
         ) {
-            loginUser(formData).then(responseStatus => {
+            login_user(formData).then(responseStatus => {
                 if(responseStatus === 200) {
                     window.location = "/"
                 } else {

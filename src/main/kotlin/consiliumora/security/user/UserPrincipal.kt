@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.oauth2.core.user.OAuth2User
 
 class UserPrincipal: OAuth2User, UserDetails {
+    private val id: Long
     private val name: String
     private val username: String
     private val role: GrantedAuthority
@@ -18,6 +19,7 @@ class UserPrincipal: OAuth2User, UserDetails {
     private val attributes: MutableMap<String, Any>
     constructor(user: User)
     {
+        id = user.id
         name = user.providerId
         username = user.username
         password = user.password
@@ -27,6 +29,7 @@ class UserPrincipal: OAuth2User, UserDetails {
     }
     constructor(user: User, attributes: MutableMap<String, Any>)
     {
+        id = user.id
         name = user.providerId
         username = user.username
         password = user.password
@@ -56,4 +59,6 @@ class UserPrincipal: OAuth2User, UserDetails {
     override fun isAccountNonLocked(): Boolean = true
 
     fun getImg(): String? = img
+
+    fun getId(): Long = id
 }

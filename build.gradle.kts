@@ -1,5 +1,7 @@
+
 import com.moowork.gradle.node.yarn.YarnTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.70"
     application
@@ -22,7 +24,6 @@ tasks.named<YarnTask>("yarn_install") {
 tasks.withType<ProcessResources> {
     dependsOn("buildFront")
 }
-
 
 repositories {
     jcenter()
@@ -47,7 +48,6 @@ dependencies {
     implementation("commons-codec:commons-codec:1.14")
 
     implementation("org.postgresql:postgresql")
-
 }
 
 application {

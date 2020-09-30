@@ -1,19 +1,14 @@
 import React, {useEffect, useState} from "react"
-import Grid from "@material-ui/core/Grid"
 import Header from "./header/Header.jsx"
 import Content from "./content/Content.jsx"
 import Footer from "./Footer.jsx"
 import MenuDrawer from "./MenuDrawer.jsx"
-import getUser from "../api/getUser.js"
-import {BrowserRouter, Switch, Route} from "react-router-dom"
+import getUser from "../api/get_user.js"
+import {BrowserRouter, Switch} from "react-router-dom"
 import {Container} from "@material-ui/core"
-import Login from "./login/Login.jsx"
 
 
 const App = () => {
-    useEffect(() => {
-        getUser.then(user => setUser(user))
-    },[user])
     const[openMenuDrawer, setOpenMenuDrawer] = useState(false)
     const[user, setUser] = useState(userData)
     return(
@@ -23,7 +18,7 @@ const App = () => {
                 <Container maxWidth="lg">
                     <Header open={openMenuDrawer} setOpen={setOpenMenuDrawer} user={user} />
                     <MenuDrawer open={openMenuDrawer} setOpen={setOpenMenuDrawer} user={user}/>
-                    <Content open={openMenuDrawer}/>
+                    <Content open={openMenuDrawer} user={user}/>
                     <Footer open={openMenuDrawer}/>
                 </Container>
                     </React.Fragment>
