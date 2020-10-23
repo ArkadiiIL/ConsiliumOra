@@ -23,7 +23,7 @@ data class Dictionary (
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     val author: User,
-    @OneToMany
+    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "word_id")
-    val words: Set<Word> = mutableSetOf()
+    var words: MutableList<Word> = mutableListOf()
 ) :Serializable

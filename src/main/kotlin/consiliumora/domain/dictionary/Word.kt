@@ -1,7 +1,5 @@
 package consiliumora.domain.dictionary
 
-import consiliumora.domain.dictionary.Dictionary
-import consiliumora.domain.dictionary.Translation
 import java.io.Serializable
 import javax.persistence.*
 
@@ -10,12 +8,12 @@ import javax.persistence.*
 data class Word(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: Long,
+    val id: Long = 0,
     @Column(nullable = false)
     val name: String,
-    @OneToMany
+    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "translation_id")
-    val translations: Set<Translation> = mutableSetOf(),
+    var translations: MutableList<Translation> = mutableListOf(),
     @ManyToOne
     @JoinColumn(name = "dictionary_id")
     val dictionary: Dictionary

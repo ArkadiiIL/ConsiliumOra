@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const DictionaryBody = ({status, words, dictionaryData, updateDictionaryData}) => {
+const DictionaryBody = ({isRead, words, dictionaryData, updateDictionaryData}) => {
     const classes = useStyles()
 
     const updateWords = (words) => {
@@ -62,10 +62,41 @@ const DictionaryBody = ({status, words, dictionaryData, updateDictionaryData}) =
         )
     }
 
-    const handleWord = (index) => {
+    const handleUpdateWord = (wordIndex) => {
         return (e) => {
-            console.log(index)
-            console.log(e.target.name)
+            updateWords(
+                [
+                    ...words.slice(0, wordIndex),
+                    {
+                        ...words[wordIndex],
+                        name: e.target.value
+                    },
+                    ...words.slice(wordIndex + 1, words.length)
+                ]
+            )
+        }
+    }
+
+    const handleUpdateTranslate = (wordIndex, translationIndex) => {
+        return (e) => {
+            updateWords(
+                [
+                    ...words.slice(0, wordIndex),
+                    {
+                        ...words[wordIndex],
+                        translations: [
+                            ...words[wordIndex].translations.slice(0, translationIndex),
+                            {
+                                ...words[wordIndex].translations[translationIndex],
+                                [e.target.name]: e.target.value
+                            },
+                            ...words[wordIndex].translations.slice
+                            (translationIndex + 1, words[wordIndex].translations.length)
+                        ]
+                    },
+                    ...words.slice(wordIndex + 1, words.length)
+                ]
+            )
         }
     }
 
@@ -138,7 +169,7 @@ const DictionaryBody = ({status, words, dictionaryData, updateDictionaryData}) =
     }
 
     const list = words.map(((word, wordIndex) =>
-        <div key={"w" + word.name + wordIndex.toString()}
+        <div key={"w" +  wordIndex.toString()}
              className={classes.box}
         >
             <Box display="flex" className={classes.wordBox}>
@@ -147,58 +178,78 @@ const DictionaryBody = ({status, words, dictionaryData, updateDictionaryData}) =
                     label="Enter Word"
                     defaultValue={word.name}
                     name={word.name}
-                    onChange={handleWord(wordIndex)}
+                    onChange={handleUpdateWord(wordIndex)}
+                    inputProps={{
+                        readOnly: isRead
+                    }}
                 />
-                <div>
-                <IconButton
-                    onClick={handleDeleteWord(wordIndex)}
-                >
-                    <CancelIcon
-                        color="error"
-                    />
-                </IconButton>
-                </div>
+                {
+                    !isRead &&
+                    <div>
+                        <IconButton
+                            onClick={handleDeleteWord(wordIndex)}
+                        >
+                            <CancelIcon
+                                color="error"
+                            />
+                        </IconButton>
+                    </div>
+                }
             </Box>
             <div className={classes.translateBox}>
                 {
                     word.translations.map(((translation, translationIndex) =>
                                 <div  className={classes.translateForm}
-                                      key={"t" + translation.translationName + translationIndex.toString()}
+                                      key={"t" + translationIndex.toString()}
                                 >
                                     <Box display="flex">
                                         <TextField
                                             label="Translate"
                                             defaultValue={translation.translationName}
-                                            name={translation.translationName}
+                                            name={"translationName"}
+                                            onChange={handleUpdateTranslate(wordIndex, translationIndex)}
+                                            inputProps={{
+                                                readOnly: isRead
+                                            }}
                                         />
-                                        <IconButton
-                                            onClick={handleDeleteTranslate(wordIndex, translationIndex)}
-                                        >
-                                            <CancelIcon
-                                                color="error"
-                                            />
-                                        </IconButton>
+                                        {
+                                            !isRead &&
+                                            <IconButton
+                                                onClick={handleDeleteTranslate(wordIndex, translationIndex)}
+                                            >
+                                                <CancelIcon
+                                                    color="error"
+                                                />
+                                            </IconButton>
+                                        }
                                     </Box>
                                     <TextField
                                         className={classes.descriptionInput}
                                         label="Description"
                                         size="medium"
                                         defaultValue={translation.description}
-                                        name={translation.description}
+                                        name={"description"}
+                                        onChange={handleUpdateTranslate(wordIndex, translationIndex)}
+                                        inputProps={{
+                                            readOnly: isRead
+                                        }}
                                     />
                                 </div>
                     ))
                 }
-                <div>
-                <IconButton
-                    className={classes.addTranslateButton}
-                    onClick={handleAddTranslate(wordIndex)}
-                >
-                    <AddCircleIcon
-                        color="primary"
-                    />
-                </IconButton>
-                </div>
+                {
+                    !isRead &&
+                    <div>
+                        <IconButton
+                            className={classes.addTranslateButton}
+                            onClick={handleAddTranslate(wordIndex)}
+                        >
+                            <AddCircleIcon
+                                color="primary"
+                            />
+                        </IconButton>
+                    </div>
+                }
             </div>
         </div>
     ))
@@ -206,15 +257,18 @@ const DictionaryBody = ({status, words, dictionaryData, updateDictionaryData}) =
     return (
         <Container className={classes.container}>
             {list}
-            <IconButton
-                className={classes.addWordButton}
-                onClick={handleAddWord}
-            >
-                <AddCircleIcon
-                    fontSize="large"
-                    color="primary"
-                />
-            </IconButton>
+            {
+                !isRead &&
+                <IconButton
+                    className={classes.addWordButton}
+                    onClick={handleAddWord}
+                >
+                    <AddCircleIcon
+                        fontSize="large"
+                        color="primary"
+                    />
+                </IconButton>
+            }
         </Container>
     )
 }

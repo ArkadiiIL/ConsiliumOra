@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid"
 import Button from "@material-ui/core/Button"
 import NoteAddIcon from "@material-ui/icons/NoteAdd"
 import  { Redirect } from "react-router-dom"
+import DictionaryList from "./DictionaryList.jsx"
 
 
 
@@ -53,10 +54,14 @@ const useStyles = makeStyles((theme) => ({
     addDictionary: {
         marginTop: "28px",
         width: "150px"
+    },
+    dictionaryList: {
+        marginTop: "5%",
+        marginLeft: "5%"
     }
 
 }))
-const DictionaryMenu = () => {
+const DictionaryMenu = ({user}) => {
     const classes = useStyles()
     const [currentlyType, updateCurrencyType] = React.useState("all")
     const [createDictionary, updateCreateDictionary] = React.useState(false)
@@ -124,6 +129,9 @@ const DictionaryMenu = () => {
                         </Grid>
 
                     </form>
+                </div>
+                <div className={classes.dictionaryList}>
+                    <DictionaryList user={user}/>
                 </div>
             </Container>
         )

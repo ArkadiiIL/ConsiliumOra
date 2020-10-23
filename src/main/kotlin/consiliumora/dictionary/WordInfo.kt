@@ -1,4 +1,6 @@
 package consiliumora.dictionary
 
-class WordInfo {
-}
+data class WordInfo (
+    val name: String,
+    val translations: MutableList<TranslateInfo> = mutableListOf()
+)

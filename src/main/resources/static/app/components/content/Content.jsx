@@ -27,7 +27,9 @@ const Content = ({open, user}) => {
                 <Route path="/profile" component={Profile}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/registration" component={Registration}/>
-                <Route exact path="/dictionary" component={DictionaryMenu}/>
+                <Route exact path="/dictionary">
+                    <DictionaryMenu user={user}/>
+                </Route>
                 <Route path="/dictionary/create">
                     <MainDictionary user={user} status={Status.CREATE}/>
                 </Route>

@@ -21,6 +21,7 @@ import Typography from "@material-ui/core/Typography"
 import {create_dictionary} from "../../../../api/create_dictionary"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Switch from "@material-ui/core/Switch"
+import Status from "./status";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     }
 
 }))
-const CreateDictionary = ({status, formData, updateFormData}) => {
+const CreateDictionary = ({status, isRead, formData, updateFormData}) => {
     const classes = useStyles()
     const [redirect, updateRedirect] = React.useState(false)
     const [redirectUri, updateRedirectUri] = React.useState("")
@@ -81,7 +82,7 @@ const CreateDictionary = ({status, formData, updateFormData}) => {
         updateFormData(
             {
                 ...formData,
-                [e.target.name]: e.target.value.trim()
+                [e.target.name]: e.target.value
             }
         )
     }
@@ -185,6 +186,7 @@ const CreateDictionary = ({status, formData, updateFormData}) => {
                                 helperText={checkName()}
                                 className={classes.dictionarySearch}
                                 InputProps={{
+                                    readOnly: isRead,
                                     startAdornment: (
                                         <InputAdornment position="start">
                                             <CreateIcon
@@ -207,6 +209,7 @@ const CreateDictionary = ({status, formData, updateFormData}) => {
                                 helperText={checkDescription()}
                                 className={classes.dictionarySearch}
                                 InputProps={{
+                                    readOnly: isRead,
                                     startAdornment: (
                                         <InputAdornment position="start">
                                             <CreateIcon
@@ -221,6 +224,7 @@ const CreateDictionary = ({status, formData, updateFormData}) => {
                         <Grid container spacing={2}>
                             <Grid item>
                                 <FormControl
+                                    disabled={isRead}
                                     id="first-language"
                                     className={classes.select}
                                 >
@@ -245,16 +249,22 @@ const CreateDictionary = ({status, formData, updateFormData}) => {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item>
-                                <IconButton
-                                    onClick={swap}
-                                    className={classes.swap}
-                                >
-                                    <SwapHoriz/>
-                                </IconButton>
-                            </Grid>
+
+                            {
+                                !isRead &&
+                                <Grid item>
+                                    <IconButton
+                                        onClick={swap}
+                                        className={classes.swap}
+                                    >
+                                        <SwapHoriz/>
+                                    </IconButton>
+                                </Grid>
+                            }
+
                             <Grid item>
                                 <FormControl
+                                    disabled={isRead}
                                     id="second-language"
                                     className={classes.select}
                                 >
@@ -279,30 +289,37 @@ const CreateDictionary = ({status, formData, updateFormData}) => {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item className={classes.switchGrid}>
-                                <FormControlLabel
-                                    className={classes.switch}
-                                    control={
-                                        <Switch
-                                        checked={formData.publicity !== "PUBLIC"}
-                                        onChange={publicityChange} name="publicity"
-                                        color="primary"
-                                        />}
+                            {
+                                !isRead
+                                &&
+                                <Grid item className={classes.switchGrid}>
+                                    <FormControlLabel
+                                        className={classes.switch}
+                                        control={
+                                            <Switch checked={formData.publicity !== "PUBLIC"}
+                                                    onChange={publicityChange} name="publicity"
+                                                    color="primary"
+                                            />}
                                         label={formData.publicity}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.createButton}
-                                    endIcon={<Add/>}
-                                    onClick={create}
-                                >
-                                    Create
-                                </Button>
-                            </Grid>
+                                    />
+                                </Grid>
+                            }
+
+                            {
+                                status === Status.CREATE &&
+                                <Grid item>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.createButton}
+                                        endIcon={<Add/>}
+                                        onClick={create}
+                                    >
+                                        Create
+                                    </Button>
+                                </Grid>
+                            }
                         </Grid>
                     </form>
                 </div>

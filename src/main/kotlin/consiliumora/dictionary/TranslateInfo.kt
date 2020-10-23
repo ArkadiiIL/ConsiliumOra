@@ -1,4 +1,6 @@
 package consiliumora.dictionary
 
-class TranslateInfo {
-}
+data class TranslateInfo (
+    val translationName: String,
+    val description: String
+)

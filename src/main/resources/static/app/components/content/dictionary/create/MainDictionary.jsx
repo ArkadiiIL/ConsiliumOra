@@ -6,7 +6,8 @@ import {makeStyles} from "@material-ui/core/styles"
 import Status from "./status";
 import CircularProgress from "@material-ui/core/CircularProgress"
 import {get_dictionary} from "../../../../api/get_dictionary"
-import { useParams } from "react-router-dom"
+import {Redirect, useParams} from "react-router-dom"
+import {update_dictionary} from "../../../../api/update_dictionary"
 
 const useStyles = makeStyles((theme) => ({
      container: {
@@ -24,6 +25,7 @@ const MainDictionary = ({user, status}) => {
     const classes = useStyles()
     let { id } = useParams()
     const [loading, updateLoading] = React.useState(status !== Status.CREATE)
+    const [error, updateError] = React.useState(false)
 
     const[dictionaryData, updateDictionaryData] = React.useState({
         name: "",
@@ -35,13 +37,15 @@ const MainDictionary = ({user, status}) => {
         words: []
     })
 
-
-
     React.useEffect(() => {
         if(status === Status.UPDATE) {
             get_dictionary(id).then(result => {
-                {
-                    updateDictionaryData(result)
+                if(result.status === 200) {
+                    result.json().then(data => {
+                        updateDictionaryData(data)
+                    })
+                } else {
+                    updateError(true)
                 }
             })
             updateLoading(false)
@@ -49,10 +53,19 @@ const MainDictionary = ({user, status}) => {
     }, [status])
 
     const updateData = (data) => {
+        if(status !== Status.CREATE) {
+            update_dictionary(id, data).then(result => {
+
+            })
+        }
         updateDictionaryData(data)
     }
 
-    if(loading) {
+    if(error) {
+        return (
+            <Redirect to="/dictionary" />
+        )
+    }else if(loading) {
         return (
             <Container className={classes.container}>
                 <div className={classes.loading}>
@@ -64,11 +77,13 @@ const MainDictionary = ({user, status}) => {
         return(
             <Container className={classes.container}>
                 <CreateDictionary status={status}
+                                  isRead={user.id !== dictionaryData.author.id}
                                   formData={dictionaryData}
                                   updateFormData={updateData}/>
                 {
                     status !== Status.CREATE &&
-                    <DictionaryBody status={status} words={dictionaryData.words}
+                    <DictionaryBody isRead={user.id !== dictionaryData.author.id}
+                                    words={dictionaryData.words}
                                     dictionaryData={dictionaryData}
                                     updateDictionaryData={updateData}
                     />

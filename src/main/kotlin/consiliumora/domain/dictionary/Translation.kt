@@ -8,7 +8,7 @@ import javax.persistence.*
 data class Translation (
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: Long,
+    val id: Long = 0,
     @Column(nullable = false)
     val name: String,
     var description: String,

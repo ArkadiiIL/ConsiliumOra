@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse
 @RequestMapping("dictionary")
 class DictionaryController(@Autowired val dictionaryService: DictionaryService) {
 
-    @GetMapping("{id}")
+    @GetMapping("/get/{id}")
     fun get(@PathVariable id: Long,
             @AuthenticationPrincipal user: UserPrincipal
     ) :DictionaryInfo {
@@ -28,5 +28,22 @@ class DictionaryController(@Autowired val dictionaryService: DictionaryService) 
     fun create(@RequestBody dictionaryInfo: DictionaryInfo,
                @AuthenticationPrincipal user: UserPrincipal): Long {
             return dictionaryService.create(dictionaryInfo, user.getId())
+    }
+
+    @PostMapping("/update/{id}")
+    fun update(@PathVariable id: Long,
+               @RequestBody dictionaryInfo: DictionaryInfo,
+               @AuthenticationPrincipal user: UserPrincipal) {
+        dictionaryService.updateDictionary(id, user.getId(), dictionaryInfo)
+    }
+    @GetMapping("/get/all")
+    fun getAll(@AuthenticationPrincipal user: UserPrincipal): List<DictionaryInfo> {
+        return dictionaryService.getAll(user.getId())
+    }
+
+    @DeleteMapping("/delete/{id}")
+    fun delete(@PathVariable id: Long,
+               @AuthenticationPrincipal user: UserPrincipal) {
+        dictionaryService.deleteDictionary(id, user.getId())
     }
 }

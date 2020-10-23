@@ -1,6 +1,7 @@
 package consiliumora.service
 
 import consiliumora.dictionary.DictionaryInfo
+import consiliumora.dictionary.DictionaryInfoCreator
 import consiliumora.domain.User
 import consiliumora.domain.dictionary.Dictionary
 import consiliumora.domain.dictionary.Publicity
@@ -15,7 +16,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class DictionaryService(@Autowired val userRepo: UserRepo,
-                        @Autowired val dictionaryRepo: DictionaryRepo
+                        @Autowired val dictionaryRepo: DictionaryRepo,
+                        @Autowired val dictionaryInfoCreator: DictionaryInfoCreator
 ) {
     fun create(dictionaryInfo: DictionaryInfo, userId: Long): Long {
         val author: User
@@ -46,6 +48,38 @@ class DictionaryService(@Autowired val userRepo: UserRepo,
     }
 
     private fun getDictionaryInfo(dictionary: Dictionary): DictionaryInfo {
-        TODO("Not yet implemented")
+        return dictionaryInfoCreator.create(dictionary)
+    }
+
+    fun updateDictionary(id: Long, userId: Long, dictionaryInfo: DictionaryInfo) {
+        val dictionary = dictionaryRepo.findDictionaryById(id)
+            ?: throw DictionaryNotFoundException("Dictionary with id:${id} not exist!")
+        if(dictionary.author.id != userId)
+            throw IllegalRequestException("Author id:${id} doesn't match with user id:${userId}")
+        update(dictionary, dictionaryInfo)
+        dictionaryRepo.save(dictionary)
+    }
+
+    private fun update(dictionary: Dictionary, dictionaryInfo: DictionaryInfo) {
+        dictionary.name = dictionaryInfo.name
+        dictionary.description = dictionaryInfo.description
+        dictionary.firstLanguage = dictionaryInfo.firstLanguage
+        dictionary.secondLanguage = dictionaryInfo.secondLanguage
+        dictionary.publicity = dictionaryInfo.publicity
+        dictionary.words.clear()
+        dictionary.words.addAll(dictionaryInfoCreator.getWords(dictionaryInfo.words, dictionary))
+    }
+
+    fun getAll(id: Long): List<DictionaryInfo> {
+        return dictionaryRepo.findDictionaryByAuthorIdOrPublicity(id, Publicity.PUBLIC).map {dictionary ->
+            dictionaryInfoCreator.create(dictionary)
+        }
+    }
+
+    fun deleteDictionary(id: Long, userId: Long) {
+        val dictionary = dictionaryRepo.findDictionaryById(id)
+            ?: throw DictionaryNotFoundException("Dictionary with id:${id} not exist!")
+        if(dictionary.author.id != userId) throw IllegalRequestException("Author id:${id} doesn't match with user id:${userId}")
+        dictionaryRepo.delete(dictionary)
     }
 }
