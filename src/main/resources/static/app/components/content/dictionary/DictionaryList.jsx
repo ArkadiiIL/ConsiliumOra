@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const DictionaryList = ({user}) => {
+const DictionaryList = ({user, searchState}) => {
     const classes = useStyles()
     const[dictionaryList, updateDictionaryList] = React.useState([])
     React.useEffect(() => {
@@ -63,7 +63,18 @@ const DictionaryList = ({user}) => {
         }
     }
 
-    const list = dictionaryList.map(((dictionary, dictionaryIndex) =>
+    const list = dictionaryList
+        .filter((dictionary) => {
+            if(searchState.publicity !== "all") {
+                if(dictionary.publicity.toLowerCase() !== searchState.publicity) return false
+            }
+            if(searchState.template !== "") {
+                return dictionary.name.toLowerCase().includes(searchState.template.toLowerCase())
+            }
+            return true
+
+        })
+        .map(((dictionary, dictionaryIndex) =>
             <Card
                 key={dictionaryIndex}
                 className={classes.card}

@@ -63,12 +63,26 @@ const useStyles = makeStyles((theme) => ({
 }))
 const DictionaryMenu = ({user}) => {
     const classes = useStyles()
-    const [currentlyType, updateCurrencyType] = React.useState("all")
+    const [searchState, updateSearchState] = React.useState(
+        {
+            template: "",
+            publicity: "all"
+        }
+    )
     const [createDictionary, updateCreateDictionary] = React.useState(false)
 
     const handleCreate = (e) => {
         e.preventDefault()
         updateCreateDictionary(true)
+    }
+
+    const handleSearchChange = (e) => {
+        updateSearchState(
+            {
+                ...searchState,
+                [e.target.name]: e.target.value
+            }
+        )
     }
 
     if(createDictionary) {
@@ -88,14 +102,18 @@ const DictionaryMenu = ({user}) => {
                                 <TextField size="medium"
                                            id="dictionary-search"
                                            label="Search"
+                                           name="template"
                                            className={classes.dictionarySearch}
+                                           onChange={handleSearchChange}
                                 />
                             </Grid>
                             <Grid item>
                                 <TextField select
                                            id="type-search"
-                                           value={currentlyType}
+                                           value={searchState.publicity}
                                            className={classes.select}
+                                           name="publicity"
+                                           onChange={handleSearchChange}
                                 >
                                     {currencies.map((option) => (
                                         <MenuItem key={option.value} value={option.value}>
@@ -103,16 +121,6 @@ const DictionaryMenu = ({user}) => {
                                         </MenuItem>
                                     ))}
                                 </TextField>
-                            </Grid>
-                            <Grid item>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.searchButton}
-                                >
-                                    Search
-                                </Button>
                             </Grid>
                             <Grid item>
                                 <Button
@@ -131,7 +139,7 @@ const DictionaryMenu = ({user}) => {
                     </form>
                 </div>
                 <div className={classes.dictionaryList}>
-                    <DictionaryList user={user}/>
+                    <DictionaryList user={user} searchState={searchState}/>
                 </div>
             </Container>
         )
